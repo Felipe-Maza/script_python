@@ -1,0 +1,33 @@
+name: Sync Excel to Supabase
+
+on:
+  schedule:
+    - cron: "* * * * *"  # Ejecutar cada minuto
+  workflow_dispatch:
+
+jobs:
+  run-script:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Clonar repositorio
+      uses: actions/checkout@v3
+
+    - name: Configurar Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.11'
+
+    - name: Instalar dependencias
+      run: pip install -r requirements.txt
+
+    - name: Ejecutar script de migración
+      env:
+        DB_USER: ${{ secrets.DB_USER }}
+        DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+        DB_HOST: ${{ secrets.DB_HOST }}
+        DB_PORT: ${{ secrets.DB_PORT }}
+        DB_NAME: ${{ secrets.DB_NAME }}
+        SHAREPOINT_EXCEL_URL: ${{ secrets.SHAREPOINT_EXCEL_URL }}
+        DB_TABLE: ${{ secrets.DB_TABLE }}
+      run: python migracion_datos.py
