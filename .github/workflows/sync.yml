@@ -1,8 +1,8 @@
 name: Sync Excel to Supabase
 
 on:
-  #schedule:
-    #- cron: "*/1 * * * *"  # Ejecutar cada minuto
+  schedule:
+    - cron: "* * * * *"  # Ejecutar cada minuto
   workflow_dispatch:
 
 jobs:
